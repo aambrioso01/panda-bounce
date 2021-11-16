@@ -8,6 +8,7 @@ TagManager:
   - ScoreZone
   - GroundDeath
   - Bounds
+  - PlayerGFX
   layers:
   - Default
   - TransparentFX
@@ -48,9 +49,12 @@ TagManager:
   - name: Game
     uniqueID: 2640366709
     locked: 0
-  - name: UI
-    uniqueID: 696212545
-    locked: 0
   - name: Obstacle
     uniqueID: 2319281355
+    locked: 0
+  - name: Player
+    uniqueID: 1270218317
+    locked: 0
+  - name: UI
+    uniqueID: 696212545
     locked: 0

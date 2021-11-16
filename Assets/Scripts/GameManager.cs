@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    public List<GameObject> playerPrefabs;
+
+    public GameObject playerSelectPage;
     public GameObject startPage;
     public GameObject gameOverPage;
     public GameObject countdownPage;
@@ -20,14 +24,13 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text highscore;
 
-    bool half;
-
     enum PageState
     {
         None,
         Start,
         GameOver,
-        Countdown
+        Countdown,
+        PlayerSelect
     }
 
     int score = 0;
@@ -79,19 +82,6 @@ public class GameManager : MonoBehaviour
     {
         score++;
         scoreText.text = score.ToString();
-
-        /*
-        if (half)
-        {
-            score++;
-            scoreText.text = score.ToString();
-            half = false;
-        }
-        else
-        {
-            half = true;
-        }
-        */
     }
 
     void SetPageState(PageState state)
@@ -118,6 +108,12 @@ public class GameManager : MonoBehaviour
                 gameOverPage.SetActive(false);
                 countdownPage.SetActive(true);
                 break;
+            case PageState.PlayerSelect:
+                startPage.SetActive(false);
+                gameOverPage.SetActive(false);
+                countdownPage.SetActive(false);
+                playerSelectPage.SetActive(true);
+                break;
         }
     }
 
@@ -133,6 +129,16 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        //SetPageState(PageState.Countdown);
+        SetPageState(PageState.PlayerSelect);
+    }
+
+    public void PlayerSelect(int selection)
+    {
+        Destroy(GameObject.FindGameObjectWithTag("PlayerGFX"));
+        Instantiate(playerPrefabs[selection].gameObject, new Vector3(-0.97f, 1.7f, 0f), Quaternion.identity, GameObject.FindGameObjectWithTag("Player").transform);
+        FindObjectOfType<TapController>().PlayerConfig();
+
         SetPageState(PageState.Countdown);
     }
 }
